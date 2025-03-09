@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GABARITO</title>
+    <style>
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font: normal 12pt sans-serif;
+    }
+    
+
+    main {
+        padding: 30px;
+        user-select: none;
+    }
+    .colunas {
+        display: flex;
+        gap: 20px;
+        margin-top: 10px;
+    }
+    .coluna {
+        width: 350px;
+        background-color: #717274;
+        height: 350px;
+        border-radius: 20px;
+    }
+    .titulocoluna {
+        color: #000000;
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin: 20px;
+        text-align: center;
+    }
+    .card {
+        padding: 10px;
+        height: 200px;
+        width: 300px;
+        border-radius: 20px;
+        text-align: left;
+        margin-left: 25px;
+        background-color: #bfbfbf;
+        
+    }
+    input {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 2px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+
+    input.block {
+        cursor: not-allowed;
+        padding: 2px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        border: 0;
+        background-color: #bfbfbf;
+
+    }
+
+
+
+
+
+
+    </style>
+</head>
+
+<body>
+    <main>
+        <section class="colunas">
+            <section class="coluna">
+                <h2 class="titulocoluna"> CALCULO DE PITAGORAS</h2>
+                <section class="card">
+                    <p>Dimensão frente (A): <input type="number" id="frente"></p>
+                    <p>Dimensão lateral (B): <input type="number" id="lateral"></p>
+                    <p>Dimensão diagonal (C): <input class="block" onmousedown="return false" type="number" id="hipotenusa"></p>
+                    <button onclick="calcular()"> Calcular</button>
+
+
+                </section>
+            </section>
+            <section class="coluna">
+                <h2 class="titulocoluna"> CALCULO NA OBRA</h2>
+                <section class="card">
+                    <p>Dimensão frente (A): <input class="block" onmousedown="return false" type="number" id="frenteobra"></p>
+                    <p>Dimensão lateral (B): <input class="block" onmousedown="return false" type="number" id="lateralobra"></p>
+                    <p>Dimensão diagonal medir na obra (C): <input type="number" id="diagonalobra"></p>
+                    <button onclick="calcular2()">Calcular Angulo</button>
+                </section>
+            </section>
+            <section class="coluna">
+                <h2 class="titulocoluna"> RESULTADO</h2>
+                <section class="card">
+                    <p>O angulo é de: <input class="block" onmousedown="return false" type="number" id="ang"></p>
+                    <p>Dimensão Frente (A) de prego a prego: <input type="number" id="pregoaprego"></p>
+                    <p>Valor a deslocar no gabarito (cm): <input class="block" onmousedown="return false" type="number" id="prego"></p>
+                    <button onclick="calcular3()">Calcular deslocamento</button>
+                </section>
+            </section>
+        </section>
+
+    </main>
+
+    <script>
+        
+            //CALCULAR QUANDO CLICAR       
+            function calcular(){
+                //PEGANDO AS INFORMAÇÕES DO INPUT (A) E (B) DIGITADO PELO USUÁRIO
+                let a = document.getElementById('frente')
+                let a1 = Number(a.value)
+                let b = document.getElementById('lateral')
+                let b1 = Number(b.value)
+                //CALCULANDO A HIPOTENUSA (C)
+                let a2 = a1**2
+                let b2 = b1**2
+                let c = Math.sqrt(a2+b2)
+                //RETORNANDO C PARA O INPUT DEPOIS DE CALCULADO (TELA DO USUÁRIO)
+                let inputc = document.getElementById('hipotenusa')
+                inputc.value = c.toFixed(3)
+                //RETORNANDO A E B PARA O INPUT DE CALCULO NA OBRA
+                let inputa = document.getElementById('frenteobra')
+                inputa.value = a1
+                let inputb = document.getElementById('lateralobra')
+                inputb.value = b1          
+                //PREENCHENDO O VALOR DA HIPOTENUSA MEDIDA NA OBRA (SEMPRE VAI SER DIFERENTE DO C CALCULADO)
+                let cobra = prompt('DIGITE O VALOR DA HIPOTENUSA MEDIDO NA OBRA')
+                let inputcobra = document.getElementById('diagonalobra')
+                inputcobra.value = cobra
+                //CALCULAR O ANGULO PARA SABER SE É MAIOR OU MENOR QUE 90°
+                let a2b2 = a2+b2              
+                let ab2 = 2*a1*b1
+                let c2 = (cobra)**2
+                let cosang = (c2-a2b2)/(-ab2)
+                let ang = Math.acos(cosang)
+                //TRANSFORMANDO DEGREES EM GRAUS E PASSANDO O RESULTADO PARA O INPUT
+                let graus = ((ang*180)/Math.PI)
+                let inputgraus = document.getElementById('ang')
+                inputgraus.value = graus
+                //PREENCHENDO O VALOR DA FRENTE OBRA (A) (DISTANCIA DE PREGO A PREGO)
+                let prego = prompt('DIGITE O VALOR DA DISTANCIA DE PREGO A PREGO (FRENTE DA OBRA)')
+                let inputprego = document.getElementById('pregoaprego')
+                inputprego.value = prego
+                //CALCULAR O DESLOCAMENTO DO PREGO
+                let difang = 90-graus
+                let tang = (difang*Math.PI)/180
+                let atang = Math.tan(tang)
+                let desloc = atang*prego*100
+                //PASSANDO RESULTADO DO DESLOCAMENTO PARA O INPUT
+                let inputdesloc = document.getElementById('prego')
+                inputdesloc.value = desloc.toFixed(3)
+            }
+       
+            
+    </script>
+    
+    </body>
+</html>
